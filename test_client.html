@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baymax Chat Client</title>
+    <script src="https://unpkg.com/livekit-client@2.3.0/dist/livekit-client.umd.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      #chatContainer {
+        border: 1px solid #ccc;
+        height: 400px;
+        overflow-y: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+      }
+      .message {
+        margin: 5px 0;
+        padding: 8px;
+        border-radius: 5px;
+      }
+      .user-message {
+        background-color: #007bff;
+        color: white;
+        margin-left: 20%;
+      }
+      .baymax-message {
+        background-color: #e9ecef;
+        color: black;
+        margin-right: 20%;
+      }
+      #messageInput {
+        width: 70%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      #sendButton {
+        width: 25%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #sendButton:hover {
+        background-color: #0056b3;
+      }
+      .status {
+        color: #666;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Baymax Chat Client</h1>
+    <div class="status" id="status">Connecting...</div>
+    <div id="chatContainer"></div>
+    <input
+      type="text"
+      id="messageInput"
+      placeholder="Type your message here..."
+    />
+    <button id="sendButton">Send</button>
+
+    <script>
+      const LiveKit = window.LiveKit;
+      let room = null;
+      let connected = false;
+
+      // Update this with your LiveKit server URL and token
+      const serverUrl = "ws://localhost:7880";
+      const token = "your-token-here"; // You'll need to generate this
+
+      async function connectToRoom() {
+        try {
+          room = new LiveKit.Room();
+
+          // Handle incoming data (text messages)
+          room.on(LiveKit.RoomEvent.DataReceived, (data, participant) => {
+            const message = new TextDecoder().decode(data);
+            addMessage(message, "baymax-message");
+          });
+
+          room.on(LiveKit.RoomEvent.Connected, () => {
+            connected = true;
+            document.getElementById("status").textContent =
+              "Connected to Baymax!";
+            console.log("Connected to room");
+          });
+
+          room.on(LiveKit.RoomEvent.Disconnected, () => {
+            connected = false;
+            document.getElementById("status").textContent = "Disconnected";
+            console.log("Disconnected from room");
+          });
+
+          // Connect to the room
+          await room.connect(serverUrl, token);
+        } catch (error) {
+          console.error("Failed to connect:", error);
+          document.getElementById("status").textContent =
+            "Connection failed. Please check your server and token.";
+        }
+      }
+
+      function addMessage(message, className) {
+        const chatContainer = document.getElementById("chatContainer");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${className}`;
+        messageDiv.textContent = message;
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+
+      async function sendMessage() {
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value.trim();
+
+        if (message && connected && room) {
+          try {
+            // Add user message to chat
+            addMessage(`You: ${message}`, "user-message");
+
+            // Send message to the agent
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            await room.localParticipant.publishData(
+              data,
+              LiveKit.DataPacket_Kind.RELIABLE
+            );
+
+            // Clear input
+            messageInput.value = "";
+          } catch (error) {
+            console.error("Failed to send message:", error);
+            addMessage("Error: Failed to send message", "baymax-message");
+          }
+        }
+      }
+
+      // Event listeners
+      document
+        .getElementById("sendButton")
+        .addEventListener("click", sendMessage);
+      document
+        .getElementById("messageInput")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            sendMessage();
+          }
+        });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        // For testing without actual connection
+        document.getElementById("status").textContent =
+          "Ready to connect (update serverUrl and token in the code)";
+
+        // Uncomment the line below when you have your server running and token ready
+        // connectToRoom();
+      });
+    </script>
+  </body>
+</html>

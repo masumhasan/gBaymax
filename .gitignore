@@ -1,0 +1,511 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be added to the global gitignore or merged into this project gitignore.
+#  For PyCharm Community Edition, use 'pycharm-ce'
+.idea/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Windows build tools and compilation artifacts
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.manifest
+*.res
+*.rc
+*.obj
+*.dll
+*.exe
+*.bat
+*.cmd
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.log
+*.svclog
+*.scc
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===== PROJECT SPECIFIC =====
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+virtualenv/
+
+# Model files (large binary files)
+models/*.gguf
+models/*.bin
+models/*.safetensors
+models/*.pt
+models/*.pth
+models/*.h5
+models/*.tflite
+models/*.onnx
+models/*.pb
+models/*.mlmodel
+models/*.torchscript
+models/*.pkl
+models/*.joblib
+
+# Model directories
+models/downloads/
+models/cache/
+models/temp/
+models/converted/
+
+# Exclude specific model files by name
+*llama*.gguf
+*mistral*.gguf
+*gpt*.gguf
+*gemma*.gguf
+*phi*.gguf
+*codellama*.gguf
+*wizardcoder*.gguf
+*vicuna*.gguf
+*alpaca*.gguf
+*orca*.gguf
+
+# But keep model config and readme files
+!models/README.md
+!models/config.json
+!models/*.txt
+!models/*.md
+
+# LiveKit related
+.livekit/
+livekit_logs/
+*.livekit
+
+# Audio/Video files
+*.wav
+*.mp3
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.wmv
+*.flv
+*.m4a
+*.ogg
+*.opus
+*.webm
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.out
+*.pid
+*.seed
+*.pid.lock
+
+# Cache directories
+.cache/
+cache/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Configuration files with sensitive data
+config.ini
+config.cfg
+settings.ini
+secrets.json
+credentials.json
+token.json
+keys.json
+
+# Generated files
+generated/
+output/
+exports/
+dumps/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.swp
+*.swo
+*~
+
+# npm (if you have any Node.js dependencies)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Profiling
+*.prof
+*.cprof
+
+# Memory dumps
+*.dmp
+*.dump
+
+# Core dumps (Linux/Unix)
+core
+core.*
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local development files
+dev/
+development/
+sandbox/
+playground/
+experiments/
+
+# Documentation build
+docs/_build/
+docs/build/
+
+# Distribution files
+dist/
+build/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# KMS directory (appears to be project-specific)
+KMS/
+
+# Test output files
+test_output/
+test_results/
+screenshots/
+recordings/
+
+# Local configuration overrides
+local_config.py
+local_settings.py
+dev_config.py
+
+# Temporary download files
+downloads/
+temp_downloads/
+
+# API keys and tokens (additional safety)
+*api_key*
+*secret*
+*token*
+*password*
+*credentials*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Logs directory
+logs/
+*.log
+log_*.txt
+
+# Performance profiling
+*.perf
+*.profile
+
+# Memory profiling
+*.mprof
+*.prof
+
+# Temporary Python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+
+# Chat logs or conversation history
+chat_logs/
+conversations/
+history/
+chat_history/
+
+# Model training artifacts
+checkpoints/
+training_logs/
+tensorboard_logs/
+wandb/
+mlruns/
+
+# Data files (if sensitive)
+data/
+datasets/
+*.csv
+*.json
+*.jsonl
+*.parquet
+*.pkl
+*.pickle
+
+# But keep example/sample data
+!data/sample*
+!data/example*
+!data/demo*
+!data/README.md
+
+# Hugging Face cache
+.cache/huggingface/
+transformers_cache/
+
+# CUDA cache
+.nv/
+
+# Conda environments
+.conda/
+.mamba/
+
+# Installation and setup scripts (keep these)
+# install.bat
+# quick_fix.py
+# fixed_install.py
+# dependency_fix.py
+# install_windows.py
+# install_local_llm.py
+
+# But ignore installation logs and temporary files
+install_*.log
+setup_*.log
+installation_*.txt
