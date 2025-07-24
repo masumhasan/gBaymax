@@ -1,7 +1,7 @@
 'use client';
 
 import { LiveKitRoom, VideoConference } from '@livekit/components-react';
-import '@livekit/components-styles/dist/livekit-components.css';
+import '@livekit/components-styles';
 import BaymaxDisplay from './BaymaxDisplay';
 
 interface RoomProps {
