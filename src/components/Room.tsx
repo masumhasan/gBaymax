@@ -2,7 +2,9 @@
 
 import { LiveKitRoom, VideoConference } from '@livekit/components-react';
 import '@livekit/components-styles';
+import '@livekit/components-styles/prefabs/video-conference.css';
 import BaymaxDisplay from './BaymaxDisplay';
+import BaymaxWelcome from './BaymaxWelcome';
 
 interface RoomProps {
   token: string;
@@ -22,6 +24,7 @@ export default function Room({ token, serverUrl }: RoomProps) {
     >
       <VideoConference />
       <BaymaxDisplay />
+      <BaymaxWelcome />
     </LiveKitRoom>
   );
 }
