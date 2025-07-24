@@ -1,4 +1,3 @@
-
 'use client';
 
 import { summarizeConversation } from '@/ai/flows/summarize-conversation';
@@ -68,7 +67,7 @@ export function useAgent({ sendChat, sendAudio }: UseAgentOptions) {
              if (localParticipant) {
                 // This is a placeholder for a real transcription service.
                 // We send a hardcoded message to trigger the agent's response flow.
-                const sampleText = "I have a headache and a fever.";
+                const sampleText = "I am not feeling well.";
                 handleTranscription(sampleText);
              }
         };

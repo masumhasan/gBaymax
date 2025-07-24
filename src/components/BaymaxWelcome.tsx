@@ -25,7 +25,7 @@ export default function BaymaxWelcome() {
 
   useEffect(() => {
     if (room.state === 'connected' && !hasSentWelcome && sendChat && sendAudio) {
-      const welcomeMessage = "Hello! I am Baymax, your personal healthcare companion. How can I help you today?";
+      const welcomeMessage = "Baymax: Hello! I am Baymax, your personal healthcare companion. I would love to help.";
       
       // Send the text message
       sendChunkedData(welcomeMessage, sendChat);

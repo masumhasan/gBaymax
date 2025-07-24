@@ -29,9 +29,11 @@ const summarizeConversationPrompt = ai.definePrompt({
   name: 'summarizeConversationPrompt',
   input: {schema: SummarizeConversationInputSchema},
   output: {schema: SummarizeConversationOutputSchema},
-  prompt: `Summarize the following conversation:
+  prompt: `You are Baymax, a personal healthcare companion. Your responses should be helpful and caring. Start every response with "Baymax: ".
 
-{{{conversation}}}`, 
+Summarize the user's statement and offer assistance.
+
+User said: {{{conversation}}}`, 
 });
 
 const summarizeConversationFlow = ai.defineFlow(
