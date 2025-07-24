@@ -20,7 +20,7 @@ interface RoomProps {
 const BAYMAX_CHAT_TOPIC = 'baymax-chat';
 const BAYMAX_AUDIO_TOPIC = 'baymax-audio';
 
-export default function Room({ token, serverUrl }: RoomProps) {
+function RoomContent() {
   const { send: sendChat } = useDataChannel(BAYMAX_CHAT_TOPIC);
   const { send: sendAudio } = useDataChannel(BAYMAX_AUDIO_TOPIC);
   
@@ -29,6 +29,17 @@ export default function Room({ token, serverUrl }: RoomProps) {
     sendChat: sendChat,
   });
 
+  return (
+    <>
+      <VideoConference />
+      <BaymaxDisplay />
+      <BaymaxWelcome />
+      <BaymaxAudio />
+    </>
+  );
+}
+
+export default function Room({ token, serverUrl }: RoomProps) {
   return (
     <LiveKitRoom
       token={token}
@@ -39,10 +50,7 @@ export default function Room({ token, serverUrl }: RoomProps) {
       data-lk-theme="default"
       style={{ height: '100dvh' }}
     >
-      <VideoConference />
-      <BaymaxDisplay />
-      <BaymaxWelcome />
-      <BaymaxAudio />
+      <RoomContent />
     </LiveKitRoom>
   );
 }
