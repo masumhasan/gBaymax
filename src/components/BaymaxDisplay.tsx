@@ -13,7 +13,7 @@ export default function BaymaxDisplay() {
   const decoder = useMemo(() => new TextDecoder(), []);
 
   const fullText = useMemo(() => {
-    return publishedMessages.map((msg) => decoder.decode(msg.payload)).join('');
+    return (publishedMessages || []).map((msg) => decoder.decode(msg.payload)).join('');
   }, [publishedMessages, decoder]);
 
   if (!fullText) {
