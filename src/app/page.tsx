@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
       <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-background">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center" style={{ marginTop: '-68px' }}>
             <Image
                 src="https://gameghor.github.io/public/baymax.gif"
                 alt="Baymax"
