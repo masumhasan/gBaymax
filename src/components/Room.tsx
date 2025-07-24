@@ -25,7 +25,7 @@ export default function Room({ token, serverUrl }: RoomProps) {
             <VoiceVisualizer />
         </div>
         <div className="absolute bottom-0 left-0 right-0">
-            <VideoConference />
+            <VideoConference controls={{ screenShare: false }} />
         </div>
       </LiveKitRoom>
     </main>
