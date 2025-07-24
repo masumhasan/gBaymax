@@ -15,7 +15,7 @@ export default function BaymaxDisplay() {
   const [isReceiving, setIsReceiving] = useState(false);
 
   useEffect(() => {
-    if (publishedMessages.length === 0) return;
+    if (!publishedMessages || publishedMessages.length === 0) return;
 
     const lastMessage = publishedMessages[publishedMessages.length - 1];
     const decodedMessage = decoder.decode(lastMessage.payload);
