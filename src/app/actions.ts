@@ -1,29 +1,15 @@
 'use server';
 
 import { AccessToken } from 'livekit-server-sdk';
-import { z } from 'zod';
 
-const joinRoomSchema = z.object({
-  roomName: z.string().min(1, 'Room name is required'),
-});
-
-export async function generateToken(values: { roomName: string }) {
-  const result = joinRoomSchema.safeParse(values);
-
-  if (!result.success) {
-    return { error: result.error.flatten().fieldErrors };
-  }
-
+export async function createLivekitToken(roomName: string, participantName: string) {
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   if (!apiKey || !apiSecret) {
     console.error('LiveKit API Key or Secret not set.');
-    return { error: 'Server configuration error.' };
+    throw new Error('Server configuration error: LiveKit credentials not set.');
   }
-
-  const { roomName } = result.data;
-  const participantName = `user-${Math.random().toString(36).substring(2, 9)}`;
 
   const at = new AccessToken(apiKey, apiSecret, {
     identity: participantName,
@@ -38,5 +24,5 @@ export async function generateToken(values: { roomName: string }) {
     canSubscribe: true,
   });
 
-  return { token: at.toJwt() };
+  return at.toJwt();
 }

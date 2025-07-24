@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { generateToken } from '@/app/actions';
 import Room from '@/components/Room';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -16,23 +15,22 @@ export default function Home() {
   const handleJoinRoom = async () => {
     setIsLoading(true);
     try {
-      // Generate a random room name
-      const roomName = `g-baymax-session-${Math.random().toString(36).substring(2, 9)}`;
-      const result = await generateToken({ roomName });
-      
-      if (result.error) {
+      const response = await fetch('/api/token');
+      const data = await response.json();
+
+      if (!response.ok || data.error) {
         toast({
           title: "Error joining room",
-          description: typeof result.error === 'string' ? result.error : JSON.stringify(result.error),
+          description: data.error || 'An unknown error occurred.',
           variant: "destructive",
         });
-      } else if (result.token) {
-        setToken(result.token);
+      } else if (data.token) {
+        setToken(data.token);
       }
     } catch (error) {
        toast({
         title: "An unexpected error occurred",
-        description: "Please check the server logs.",
+        description: "Could not connect to the server.",
         variant: "destructive",
       });
     } finally {
