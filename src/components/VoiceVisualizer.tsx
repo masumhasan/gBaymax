@@ -8,7 +8,7 @@ export default function VoiceVisualizer() {
     const [audioLevel, setAudioLevel] = useState(0);
 
     useEffect(() => {
-        if (!room) {
+        if (!room || room.state !== 'connected') {
             return;
         }
 
@@ -41,13 +41,15 @@ export default function VoiceVisualizer() {
 
 
         return () => {
-            baymaxParticipant.off('audioLevelChanged', onAudioLevelChanged);
-            baymaxParticipant.off('trackSubscribed', onTrackSubscribed);
-            baymaxParticipant.getTracks().forEach(pub => {
-                if (pub.track?.kind === 'audio') {
-                    pub.track.off('audioLevelChanged', onAudioLevelChanged);
-                }
-            })
+            if (baymaxParticipant) {
+                baymaxParticipant.off('audioLevelChanged', onAudioLevelChanged);
+                baymaxParticipant.off('trackSubscribed', onTrackSubscribed);
+                baymaxParticipant.getTracks().forEach(pub => {
+                    if (pub.track?.kind === 'audio') {
+                        pub.track.off('audioLevelChanged', onAudioLevelChanged);
+                    }
+                })
+            }
         };
     }, [room, room.state, room.participants]);
 
