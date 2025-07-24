@@ -1,7 +1,7 @@
 'use client';
 
 import { useDataChannel } from '@livekit/components-react';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
@@ -11,10 +11,29 @@ const BAYMAX_CHAT_TOPIC = 'baymax-chat';
 export default function BaymaxDisplay() {
   const { publishedMessages } = useDataChannel(BAYMAX_CHAT_TOPIC);
   const decoder = useMemo(() => new TextDecoder(), []);
+  const [fullText, setFullText] = useState('');
+  const [isReceiving, setIsReceiving] = useState(false);
 
-  const fullText = useMemo(() => {
-    return (publishedMessages || []).map((msg) => decoder.decode(msg.payload)).join('');
-  }, [publishedMessages, decoder]);
+  useEffect(() => {
+    if (publishedMessages.length === 0) return;
+
+    const lastMessage = publishedMessages[publishedMessages.length - 1];
+    const decodedMessage = decoder.decode(lastMessage.payload);
+
+    if (decodedMessage === 'EOM') {
+      setIsReceiving(false);
+    } else {
+      if (!isReceiving) {
+        // Start of a new message
+        setFullText(decodedMessage);
+      } else {
+        // Appending chunks
+        setFullText(prev => prev + decodedMessage);
+      }
+      setIsReceiving(true);
+    }
+
+  }, [publishedMessages, decoder, isReceiving]);
 
   if (!fullText) {
     return null;

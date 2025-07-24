@@ -8,6 +8,7 @@ import { DataPacket_Kind, LocalParticipant, Track } from 'livekit-client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const AGENT_RESPONSE_TOPIC = 'agent-response';
+const CHUNK_SIZE = 60000; // 60KB chunks
 
 interface UseAgentOptions {
     sendChat?: (payload: Uint8Array, kind?: DataPacket_Kind) => void;
@@ -16,7 +17,6 @@ interface UseAgentOptions {
 
 export function useAgent({ sendChat, sendAudio }: UseAgentOptions) {
     const [isProcessing, setIsProcessing] = useState(false);
-    const audioRef = useRef<HTMLAudioElement>(null);
     const tracks = useTracks(
         [
             { source: Track.Source.Microphone, withPlaceholder: false },
@@ -26,46 +26,42 @@ export function useAgent({ sendChat, sendAudio }: UseAgentOptions) {
 
     const localParticipant = tracks.find((track) => track.participant instanceof LocalParticipant)?.participant as LocalParticipant;
 
+    const sendChunkedData = useCallback((data: string, sender: (payload: Uint8Array) => void) => {
+        const encoder = new TextEncoder();
+        const dataStr = data;
+        for (let i = 0; i < dataStr.length; i += CHUNK_SIZE) {
+            const chunk = dataStr.substring(i, i + CHUNK_SIZE);
+            sender(encoder.encode(chunk));
+        }
+        // Send an end-of-message marker
+        sender(encoder.encode('EOM'));
+    }, []);
+
     const handleTranscription = useCallback(async (text: string) => {
         if (!text.trim() || !sendChat || !sendAudio) return;
 
         setIsProcessing(true);
         try {
-            const encoder = new TextEncoder();
-            
             // 1. Get AI summary
             const { summary } = await summarizeConversation({ conversation: text });
-            sendChat(encoder.encode(summary));
+            sendChunkedData(summary, sendChat);
 
             // 2. Get TTS audio for the summary
             const { audio } = await textToSpeech(summary);
-            if (audio && audioRef.current) {
-                sendAudio(encoder.encode(audio));
+            if (audio) {
+                sendChunkedData(audio, sendAudio);
             }
         } catch (error) {
             console.error('Agent processing error:', error);
         } finally {
             setIsProcessing(false);
         }
-    }, [sendChat, sendAudio]);
+    }, [sendChat, sendAudio, sendChunkedData]);
 
 
     useEffect(() => {
         if (!localParticipant) return;
 
-        const handleData = (payload: Uint8Array) => {
-            const text = new TextDecoder().decode(payload);
-            handleTranscription(text);
-        };
-
-        localParticipant.on('trackSubscribed', (track) => {
-            if (track.source === Track.Source.Microphone) {
-                 // This is where real-time transcription would happen.
-                 // For this example, we'll simulate it with a simple data channel message.
-                 // In a real app, you would use a speech-to-text service.
-            }
-        });
-        
         // Example of how to simulate user speaking.
         // In a real app this would be driven by a speech-to-text service.
         const simulateUserInput = () => {
@@ -87,5 +83,5 @@ export function useAgent({ sendChat, sendAudio }: UseAgentOptions) {
     }, [localParticipant, handleTranscription]);
 
 
-    return { isProcessing, audioRef };
+    return { isProcessing };
 }
