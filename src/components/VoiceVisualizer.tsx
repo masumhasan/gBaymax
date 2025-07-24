@@ -32,11 +32,24 @@ export default function VoiceVisualizer() {
         baymaxParticipant.on('audioLevelChanged', onAudioLevelChanged);
         baymaxParticipant.on('trackSubscribed', onTrackSubscribed);
 
+        // Also check for already subscribed tracks
+        baymaxParticipant.getTracks().forEach(pub => {
+            if (pub.track?.kind === 'audio') {
+                pub.track.on('audioLevelChanged', onAudioLevelChanged);
+            }
+        })
+
+
         return () => {
             baymaxParticipant.off('audioLevelChanged', onAudioLevelChanged);
             baymaxParticipant.off('trackSubscribed', onTrackSubscribed);
+            baymaxParticipant.getTracks().forEach(pub => {
+                if (pub.track?.kind === 'audio') {
+                    pub.track.off('audioLevelChanged', onAudioLevelChanged);
+                }
+            })
         };
-    }, [room, room.participants]);
+    }, [room, room.state, room.participants]);
 
     const animationState = audioLevel > 0.05 ? 'speaking' : 'idle';
 
